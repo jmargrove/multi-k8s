@@ -15,14 +15,13 @@ before_install:
   - gcloud config set compute/zone europe-north1-a
   - gcloud container clusters get-credentials multi-cluster
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-  - docker build -t grovejam/react-test -f ./client/Dockerfile.dev
+  - docker build -t grovejam/react-test -f ./client/Dockerfile.dev ./client
 
 script:
   - docker run grovejam/react-test npm test -- --coverage
 
 deploy:
   provider: script
-  script:
-    - bash ./deploy.sh
+  script: bash ./deploy.sh
   on:
     branch: master
